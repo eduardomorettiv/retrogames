@@ -14,17 +14,18 @@ cancelar.addEventListener("click", ()=>{
 
 form.addEventListener("submit",(evento)=>{
     evento.preventDefault()
-    const album = document.getElementById("album").value.trim()
-    const artista = document.getElementById("artista").value.trim()
-    const genero = document.getElementById("genero").value.trim()
+    const nome = document.getElementById("nome").value.trim()
+    const plataforma = document.getElementById("artista").value.trim()
+    const desenvolvedora = document.getElementById("genero").value.trim()
     const imagem = document.getElementById("imagem").value.trim()
     const preco = Number(document.getElementById("preco").value)
+    const data = document.getElementById("data").value.trim()
 
-    criarCard(album, artista, genero, imagem, preco)
+    criarCard(nome, plataforma, desenvolvedora, imagem, preco, data)
     form.reset()
     modal.close()
 })
-function criarCard(album, artista, genero, imagem, preco){
+function criarCard(nome, plataforma, desenvolvedora, imagem, preco,data){
     mensagemVazia.hidden = true;
 
     const card = document.createElement("article")
@@ -37,14 +38,16 @@ function criarCard(album, artista, genero, imagem, preco){
     const info = document.createElement("div")
     info.classList.add("info-disco")
     const titulo = document.createElement("h3")
-    titulo.textContent = album
+    titulo.textContent = nome
     const nomeArtista = document.createElement("p")
-    nomeArtista.textContent = "Artista:" + artista
+    nomeArtista.textContent = "Plataforma:" + plataforma
     const nomeGenero = document.createElement("p")
-    nomeGenero.textContent = "Gênero: " + genero
+    nomeGenero.textContent = "Desenvolvedora: " + desenvolvedora
     const valor = document.createElement("strong")
     valor.textContent = preco.toLocaleString("pt-BR",{style:"currency",currency:"BRL"})
-    info.append(titulo, nomeArtista, nomeGenero, valor)
+    const data_registro = document.createElement("p")
+    data_registro.textContent = "data do registro:" + data
+    info.append(titulo, nomeArtista, nomeGenero, valor, data_registro)
     card.append(capa, info)
     lista.appendChild(card)
 }
