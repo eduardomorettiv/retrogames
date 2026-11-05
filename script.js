@@ -29,16 +29,17 @@ async function listarJogos() {
         }
 
         mensagemVazia.hidden = true
-        //Renderizar os discos encontrados
+        //Renderizar os jogos encontrados
         jogos.forEach(jogo => {
             criarCard(jogo.nome, jogo.plataforma, jogo.desenvolvedora, jogo.imagem, jogo.preco, jogo.data)
         });
     }catch (erro){
-        alert("Erro ao listar jogos")
+        alert("Erro ao listar jogos, veja se o server está ligado")
     }
 }
 
-form.addEventListener("submit",(evento)=>{
+//Cadastrar jogo (POST)
+form.addEventListener("submit",async (evento)=>{
     evento.preventDefault()
 
         const novoJogo = {
@@ -46,13 +47,12 @@ form.addEventListener("submit",(evento)=>{
         plataforma: document.getElementById("artista").value.trim(),
         desenvolvedora: document.getElementById("genero").value.trim(),
         imagem: document.getElementById("imagem").value.trim(),
-        preco: Number(document.getElementById("preco").value),
-        data: document.getElementById("data").value.trim()
+        preco: Number(document.getElementById("preco").value)
     }
     try{
-        const resposta = await.fetch(API_URL + '/cadastrar',{
+        const resposta = await fetch(API_URL + '/cadastrar', {
             method: "POST",
-            headers: {"Content TYPE": "application/json"},
+            headers: {"Content-TYPE": "application/json"},
             body: JSON.stringify(novoJogo)
         })
         if(resposta.ok){
@@ -63,12 +63,11 @@ form.addEventListener("submit",(evento)=>{
             alert("Erro ao salvar jogos")
         }
     }catch{
-        console.error("Deu erro, conserte: ", erro)
         alert("Erro de conexão com o servidor")
     }
 })
 
-function criarCard(nome, plataforma, desenvolvedora, imagem, preco, data){
+function criarCard(nome, plataforma, desenvolvedora, imagem, preco){
 
     const card = document.createElement("article")
     card.classList.add("card-jogo")
@@ -95,10 +94,7 @@ function criarCard(nome, plataforma, desenvolvedora, imagem, preco, data){
     const valor = document.createElement("strong")
     valor.textContent = preco.toLocaleString("pt-BR",{style:"currency",currency:"BRL"})
 
-    const data_registro = document.createElement("p")
-    data_registro.textContent = "data do registro:" + data
-    
-    info.append(titulo, nomeArtista, nomeGenero, valor, data_registro)
+    info.append(titulo, nomeArtista, nomeGenero, valor)
     card.append(capa, info)
     lista.appendChild(card)
 }

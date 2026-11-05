@@ -12,7 +12,7 @@ const db = mysql.createConnection({
 //Testar a conexão
 db.connect((erro)=>{
     if(erro){
-        console.error("Erro ao conectar:", erro)
+        console.error("Erro ao conectar ao DB, veja se o xampp está ligado")
     }else{
         console.log("Conectao ao BD")
     }
@@ -20,7 +20,7 @@ db.connect((erro)=>{
 
 //Listar jogos
 const mostrarJogos = (req, res) => {
-    const sql = "SELECT nome, plataforma, desenvolvedora, imagem, preco, data FROM jogos"
+    const sql = "SELECT nome, plataforma, desenvolvedora, imagem, preco FROM jogos"
     db.query(sql,(erro, resultado)=>{
         if(erro){
             return res.status(500).send("Erro ao consultar o BD")
@@ -31,11 +31,11 @@ const mostrarJogos = (req, res) => {
 
 //Cadastrar Jogos
 const novoJogo = (req, res)=>{
-    const{nome, plataforma, desenvolvedora, imagem, preco, data} = req.body
+    const{nome, plataforma, desenvolvedora, imagem, preco} = req.body
 
-    if(nome && plataforma && desenvolvedora && imagem && preco && data){
-        const sql = "INSERT INTO jogos (nome, plataforma, desenvolvedora, imagem, preco, data) VALUES (?, ?, ?, ?, ?, ?)"
-        const valores = [nome, plataforma, desenvolvedora, imagem, preco, data]
+    if(nome && plataforma && desenvolvedora && imagem && preco ){
+        const sql = "INSERT INTO jogos (nome, plataforma, desenvolvedora, imagem, preco) VALUES (?, ?, ?, ?, ?)"
+        const valores = [nome, plataforma, desenvolvedora, imagem, preco]
 
         db.query(sql, valores,(erro, resultado)=>{
             if(erro){
